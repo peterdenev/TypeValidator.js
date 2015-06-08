@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="TypeValidator.js"></script>
+	<script type="text/javascript">
+	
+		typeValidator = new TypeValidator();
+
+		//basic
+		function sum(a, b){
+			typeValidator.check(arguments,['number','number']);
+			return a+b;
+		}
+		//advanced
+		function f1(param1, param2, param3){
+			var custom_config = {
+				//'stop_level':2 // uncomment to overwrite and force set fatal error if check return false			
+			}
+			var validation_result = typeValidator.check(arguments,['string',null,'number'], custom_config);
+			
+			if(Array.isArray(validation_result)){
+				//debug errors if dev
+				console.log("----------DEBUG ERRORS-----------");
+				console.log(validation_result);	
+				console.log("--------------------------");			
+			}else{
+				console.log('f1 ok');
+			}
+		}
+
+		//*** more examples
+
+		function Person(){};
+		var p = new Person();
+
+		function Cat(){};
+		var c = new Cat();
+		
+		function f2(param){
+			typeValidator.check(arguments,[Person]);
+			console.log('f2 ok');
+		}
+
+		var str = 'text';
+		typeValidator.check(str,'string');
+
+		var arr = [1,2,3];
+		typeValidator.check(arr,Array);
+
+		var obj = {name:'peter'}
+		typeValidator.check(obj, Object);
+
+		
+		typeValidator.check(p, Object);
+
+		typeValidator.check(c,Cat);
+
+		typeValidator.check(function(){
+			console.log('data');
+		},'function')
+
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>
