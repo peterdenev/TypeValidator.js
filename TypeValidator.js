@@ -15,16 +15,18 @@
 	    return obj3;
 	}
 
-	function TypeValidator(){
-		var config = {
+	function TypeValidator(config){
+		var _config = {
 			'check_level': 2,
 			'stop_level' : 1,
 			'return_level' : 1,
-		}
+		}		
 
 		this.setConfig = function(new_config){
-			for(var attrname in new_config){ config[attrname] = new_config[attrname]; }
+			for(var attrname in new_config){ _config[attrname] = new_config[attrname]; }
 		}
+
+		this.setConfig(config);
 
 		this.getConfig = function(){ return config; }
 
@@ -78,7 +80,7 @@
 		this.check = function (args, types, options){
 			types = Array.isArray(types) ? types : [types]; 
 			args = typeof args.callee != 'undefined' ? args : [args];
-			var $config = merge_options(config, options);
+			var $config = merge_options(_config, options);
 			var isOK = true;
 			var err_msgs = []; // or {}
 
@@ -115,6 +117,16 @@
 			}
 			return isOK ? true : 
 				$config['return_level']==0 ? false : err_msgs;
+		}
+
+		this.getValue = function(arg, type, default_val, options){
+			return this.check(arg, type ,options)===true ? arg : default_val;			
+		}
+
+		this.set = function(arg, type, context, target, options){
+			if(this.check(arg, type ,options)===true){
+			 	context[target] = arg;			
+			}
 		}
 	}
 	return TypeValidator;
