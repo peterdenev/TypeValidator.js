@@ -59,6 +59,29 @@
 		typeValidator.check(function(){
 			console.log('data');
 		},Function)
+		
+
+		var sum2 = typeValidator.func(['number','number'], function(a, b){			
+			return a+b;
+		})
+
+		sum2(2,3);
+
+		function Person(name){
+			var _name = name;
+			var _age;
+
+			this.setAge = typeValidator.func(['number'],function(age){
+				_age = age;
+			},this);
+
+			this.toString = function(){
+				return _name+' '+_age+' years old';
+			}
+		}
+
+		var pe6o = new Person('Pe6o');
+		pe6o.setAge(3);
 
 
 	</script>

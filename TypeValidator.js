@@ -128,6 +128,15 @@
                 context[target] = arg;          
             }
         }
+
+        this.func = function(types, func, context){
+            var that = this;
+            context = typeof context != 'undefined' ? context : this;
+            return function(){
+                that.check(arguments,types);
+                return func.apply(context, arguments);
+            }
+        }
     }
     return TypeValidator;
 }));
